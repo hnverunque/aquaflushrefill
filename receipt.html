@@ -9,27 +9,46 @@
 </head>
 <body class="bg-[#DEF4FC] font-sans flex flex-col min-h-screen">
 
-  <!-- Header / Nav -->
-  <header class="bg-white shadow">
-    <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
-      <div class="flex items-center space-x-2">
-        <img src="aquarefill.png" alt="Logo" class="h-8 w-auto"/>
-        <span class="font-bold text-gray-700">Aqua Flush Refill</span>
-      </div>
-      <button id="navToggle" class="md:hidden text-gray-700 focus:outline-none">
-        ☰
-      </button>
-      <nav id="navMenu" class="hidden md:flex space-x-4">
-        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a href="orderform.html" class="text-gray-700 hover:text-blue-600">Order Now</a>
-        <a href="transactions.html" class="text-gray-700 hover:text-blue-600">Transactions</a>
-        <a href="analytics.html" class="text-gray-700 hover:text-blue-600">Analytics</a>
-        <a href="about.html" class="text-gray-700 hover:text-blue-600">About Us</a>
-        <a href="profile.html" class="text-gray-700 hover:text-blue-600">Profile</a>
-        <a href="logout.html" class="text-gray-700 hover:text-blue-600">Logout</a>
-      </nav>
+    <!-- Header -->
+  <header class="bg-white shadow relative z-50">
+  <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <img src="aquarefill.png" alt="Logo" class="h-8 w-auto"/>
+      <span class="font-bold text-gray-700">Aqua Flush Refill</span>
     </div>
-  </header>
+
+    <!-- Mobile Toggle Button -->
+    <button id="navToggle" class="md:hidden text-gray-700 text-2xl focus:outline-none">
+      ☰
+    </button>
+
+    <!-- Desktop Menu -->
+    <nav class="hidden md:flex space-x-4">
+      <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+      <a href="orderform.html" class="text-blue-600 font-semibold">Order Now</a>
+      <a href="transactions.html" class="text-gray-700 hover:text-blue-600">Transactions</a>
+      <a href="analytics.html" class="text-gray-700 hover:text-blue-600">Analytics</a>
+      <a href="about.html" class="text-gray-700 hover:text-blue-600">About Us</a>
+      <a href="profile.html" class="text-gray-700 hover:text-blue-600">Profile</a>
+      <a href="logout.html" class="text-gray-700 hover:text-blue-600">Logout</a>
+    </nav>
+  </div>
+
+  <!-- Floating Mobile Menu -->
+  <div id="navMenu" class="fixed inset-0 bg-black bg-opacity-50 hidden">
+    <div class="absolute top-0 right-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col space-y-4">
+      <button id="closeMenu" class="self-end text-gray-700 text-2xl">&times;</button>
+      <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+      <a href="orderform.html" class="text-blue-600 font-semibold">Order Now</a>
+      <a href="transactions.html" class="text-gray-700 hover:text-blue-600">Transactions</a>
+      <a href="analytics.html" class="text-gray-700 hover:text-blue-600">Analytics</a>
+      <a href="about.html" class="text-gray-700 hover:text-blue-600">About Us</a>
+      <a href="profile.html" class="text-gray-700 hover:text-blue-600">Profile</a>
+      <a href="logout.html" class="text-gray-700 hover:text-blue-600">Logout</a>
+    </div>
+  </div>
+</header>
 
   <!-- Receipt Section -->
   <main class="flex-grow">
@@ -51,9 +70,24 @@
 
   <script>
     // Mobile nav toggle
-    document.getElementById("navToggle").addEventListener("click", () => {
-      document.getElementById("navMenu").classList.toggle("hidden");
-    });
+  const navToggle = document.getElementById("navToggle");
+  const navMenu = document.getElementById("navMenu");
+  const closeMenu = document.getElementById("closeMenu");
+
+  navToggle.addEventListener("click", () => {
+  navMenu.classList.remove("hidden");
+  });
+
+  closeMenu.addEventListener("click", () => {
+    navMenu.classList.add("hidden");
+  });
+
+  // Close when clicking outside menu
+  navMenu.addEventListener("click", (e) => {
+    if (e.target === navMenu) {
+      navMenu.classList.add("hidden");
+    }
+  });
 
     // Load receipt from localStorage
     const receiptDiv = document.getElementById("receiptContent");

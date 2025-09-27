@@ -18,8 +18,8 @@
   </div>
 
   <script>
-    // Clear session/localStorage
-    localStorage.clear();
+    // Remove only the logged-in user session
+    localStorage.removeItem("loggedInUser");
 
     // Redirect to login.html after 2 seconds
     setTimeout(() => {
