@@ -50,27 +50,6 @@
   </div>
 </header>
 
-<script>
-  const navToggle = document.getElementById("navToggle");
-  const navMenu = document.getElementById("navMenu");
-  const closeMenu = document.getElementById("closeMenu");
-
-  navToggle.addEventListener("click", () => {
-    navMenu.classList.remove("hidden");
-  });
-
-  closeMenu.addEventListener("click", () => {
-    navMenu.classList.add("hidden");
-  });
-
-  // Close when clicking outside menu
-  navMenu.addEventListener("click", (e) => {
-    if (e.target === navMenu) {
-      navMenu.classList.add("hidden");
-    }
-  });
-</script>
-
 
   <!-- Main Content -->
   <main class="flex-grow">
@@ -134,15 +113,29 @@
 
   <!-- Script for PH Time + Mobile Nav -->
   <script>
+  const navToggle = document.getElementById("navToggle");
+  const navMenu = document.getElementById("navMenu");
+  const closeMenu = document.getElementById("closeMenu");
+
+  navToggle.addEventListener("click", () => {
+  navMenu.classList.remove("hidden");
+  });
+
+  closeMenu.addEventListener("click", () => {
+    navMenu.classList.add("hidden");
+  });
+
+  // Close when clicking outside menu
+  navMenu.addEventListener("click", (e) => {
+    if (e.target === navMenu) {
+      navMenu.classList.add("hidden");
+    }
     function updatePHTime() {
       var phTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"});
       document.getElementById("phTime").innerText = "Philippine Standard Time: " + phTime;
     }
     updatePHTime();
     setInterval(updatePHTime, 1000);
-
-    document.getElementById("navToggle").addEventListener("click", () => {
-      document.getElementById("navMenu").classList.toggle("hidden");
     });
   </script>
 </body>
