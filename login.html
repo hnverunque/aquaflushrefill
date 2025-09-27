@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aqua Flush Refill - Login</title>
+  <link rel="icon" href="aquarefill.png" type="image/x-icon" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 min-h-screen flex items-center justify-center">
+
+  <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
+    <img src="aquarefill.png" alt="Logo" class="w-24 mx-auto mb-4" />
+    <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Login</h2>
+
+    <div id="alertBox" class="hidden mb-4 p-3 rounded-lg text-white"></div>
+
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label class="block font-medium mb-1">Username</label>
+        <input type="text" name="username" class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" required />
+      </div>
+
+      <div>
+        <label class="block font-medium mb-1">Password</label>
+        <input type="password" name="password" class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" required />
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+        Login
+      </button>
+    </form>
+
+    <p class="mt-4 text-center text-sm">
+      Don’t have an account?
+      <a href="signup.html" class="text-blue-600 font-semibold hover:underline">Sign Up</a>
+    </p>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const alertBox = document.getElementById("alertBox");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = form.username.value.trim();
+      const password = form.password.value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const user = users.find(u => u.username === username && u.password === password);
+
+      if (user) {
+        showAlert("Login successful! Redirecting...", "bg-green-600");
+        localStorage.setItem("loggedInUser", JSON.stringify(user));
+        setTimeout(() => window.location.href = "index.html", 1500);
+      } else {
+        showAlert("Invalid credentials", "bg-red-500");
+      }
+    });
+
+    function showAlert(message, color) {
+      alertBox.textContent = message;
+      alertBox.className = `${color} text-white p-3 rounded-lg mb-4`;
+    }
+  </script>
+</body>
+</html>

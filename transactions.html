@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions - Aqua Flush</title>
+  <link rel="icon" href="aquarefill.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-[#DEF4FC] text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow">
+    <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
+      <div class="flex items-center space-x-2">
+        <img src="aquarefill.png" alt="Logo" class="h-8 w-auto"/>
+        <span class="font-bold text-gray-700">Aqua Flush Refill</span>
+      </div>
+      <button id="navToggle" class="md:hidden text-gray-700 focus:outline-none text-2xl">☰</button>
+      <nav id="navMenu" class="hidden md:flex space-x-4">
+        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+        <a href="orderform.html" class="text-gray-700 hover:text-blue-600">Order Now</a>
+        <a href="transactions.html" class="text-blue-600 font-semibold">Transactions</a>
+        <a href="analytics.html" class="text-gray-700 hover:text-blue-600">Analytics</a>
+        <a href="about.html" class="text-gray-700 hover:text-blue-600">About Us</a>
+        <a href="profile.html" class="text-gray-700 hover:text-blue-600">Profile</a>
+        <a href="logout.html" class="text-gray-700 hover:text-blue-600">Logout</a>
+      </nav>
+    </div>
+    <div id="mobileMenu" class="hidden flex-col space-y-2 px-4 pb-4 bg-white md:hidden">
+      <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+      <a href="orderform.html" class="text-gray-700 hover:text-blue-600">Order Now</a>
+      <a href="transactions.html" class="text-blue-600 font-semibold">Transactions</a>
+      <a href="analytics.html" class="text-gray-700 hover:text-blue-600">Analytics</a>
+      <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+      <a href="profile.html" class="text-gray-700 hover:text-blue-600">Profile</a>
+      <a href="logout.html" class="text-gray-700 hover:text-blue-600">Logout</a>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="flex-grow max-w-6xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6 text-gray-900">Transactions</h1>
+
+    <!-- Search -->
+    <form onsubmit="searchTransactions(event)" class="mb-6 flex space-x-2">
+      <input id="searchInput" type="text" placeholder="Search by Customer Name" 
+        class="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#74ccf4]">
+      <button type="submit" class="bg-[#74ccf4] hover:bg-[#5abbe6] text-white px-4 py-2 rounded-lg shadow">Search</button>
+    </form>
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full border border-gray-200 rounded-lg shadow-lg bg-white">
+        <thead class="bg-[#74ccf4] text-white">
+          <tr>
+            <th class="px-4 py-3 text-left">Order ID</th>
+            <th class="px-4 py-3 text-left">Customer Name</th>
+            <th class="px-4 py-3 text-left">Bottles</th>
+            <th class="px-4 py-3 text-left">Total Cost</th>
+            <th class="px-4 py-3 text-left">Contact Number</th>
+            <th class="px-4 py-3 text-left">Delivery Preference</th>
+            <th class="px-4 py-3 text-left">Customer Address</th>
+            <th class="px-4 py-3 text-left">Loyalty Points</th>
+            <th class="px-4 py-3 text-left">Status</th>
+            <th class="px-4 py-3 text-left">Order Date</th>
+          </tr>
+        </thead>
+        <tbody id="transactionsBody" class="divide-y divide-gray-200"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 mt-12">
+    <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-center space-y-2">
+      <p>©2024 UVW3. <strong>All rights reserved.</strong></p>
+      <p><strong>Aqua Flush Refill System</strong> is the educational project of Group 3 section UVW.</p>
+      <p>All other trademarks and media used on this site are the property of their respective owners.</p>
+      <p id="phTime"></p>
+    </div>
+  </footer>
+
+  <script>
+    // Philippine Time
+    function updatePHTime() {
+      var phTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
+      document.getElementById("phTime").innerText = "Philippine Standard Time: " + phTime;
+    }
+    updatePHTime();
+    setInterval(updatePHTime, 1000);
+
+    // Mobile nav toggle
+    document.getElementById("navToggle").addEventListener("click", () => {
+      document.getElementById("mobileMenu").classList.toggle("hidden");
+    });
+
+    // Load Transactions from localStorage
+    function loadTransactions() {
+      let orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const tbody = document.getElementById("transactionsBody");
+      tbody.innerHTML = "";
+
+      if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" class="text-center py-4 text-gray-500">No transactions found.</td></tr>`;
+        return;
+      }
+
+      orders.forEach(order => {
+        const row = `
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2">${order.id}</td>
+            <td class="px-4 py-2">${order.customerName}</td>
+            <td class="px-4 py-2">${order.bottles}</td>
+            <td class="px-4 py-2">₱${order.totalCost}</td>
+            <td class="px-4 py-2">${order.contactNumber}</td>
+            <td class="px-4 py-2">${order.deliveryPreference}</td>
+            <td class="px-4 py-2">${order.customerAddress}</td>
+            <td class="px-4 py-2">${order.loyaltyPoints}</td>
+            <td class="px-4 py-2">${order.status}</td>
+            <td class="px-4 py-2">${order.orderDate}</td>
+          </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    // Search Transactions
+    function searchTransactions(event) {
+      event.preventDefault();
+      const searchValue = document.getElementById("searchInput").value.toLowerCase();
+      let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+      const filtered = orders.filter(order =>
+        order.customerName.toLowerCase().includes(searchValue)
+      );
+
+      const tbody = document.getElementById("transactionsBody");
+      tbody.innerHTML = "";
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" class="text-center py-4 text-gray-500">No matching records.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(order => {
+        const row = `
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2">${order.id}</td>
+            <td class="px-4 py-2">${order.customerName}</td>
+            <td class="px-4 py-2">${order.bottles}</td>
+            <td class="px-4 py-2">₱${order.totalCost}</td>
+            <td class="px-4 py-2">${order.contactNumber}</td>
+            <td class="px-4 py-2">${order.deliveryPreference}</td>
+            <td class="px-4 py-2">${order.customerAddress}</td>
+            <td class="px-4 py-2">${order.loyaltyPoints}</td>
+            <td class="px-4 py-2">${order.status}</td>
+            <td class="px-4 py-2">${order.orderDate}</td>
+          </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    // Ensure order IDs auto-increment
+    function ensureOrderId(order) {
+      let nextId = parseInt(localStorage.getItem("nextOrderId")) || 1;
+      if (!order.id) {
+        order.id = nextId;
+        localStorage.setItem("nextOrderId", nextId + 1);
+      }
+      return order;
+    }
+
+    // Normalize saved orders (assign IDs if missing)
+    function normalizeOrders() {
+      let orders = JSON.parse(localStorage.getItem("orders")) || [];
+      let updated = false;
+      orders = orders.map(order => {
+        if (!order.id) {
+          order = ensureOrderId(order);
+          updated = true;
+        }
+        return order;
+      });
+      if (updated) {
+        localStorage.setItem("orders", JSON.stringify(orders));
+      }
+    }
+
+    normalizeOrders();
+    loadTransactions();
+  </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About & Contact</title>
+  <link rel="icon" href="aquarefill.png" type="image/x-icon" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#DEF4FC] text-gray-800 flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white shadow">
+    <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
+      <div class="flex items-center space-x-2">
+        <img src="aquarefill.png" alt="Logo" class="h-8 w-auto"/>
+        <span class="font-bold text-gray-700">Aqua Flush Refill</span>
+      </div>
+      <button id="navToggle" class="md:hidden text-gray-700 focus:outline-none">
+        ☰
+      </button>
+      <nav id="navMenu" class="hidden md:flex space-x-4">
+        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+        <a href="orderform.html" class="text-gray-700 hover:text-blue-600">Order Now</a>
+        <a href="transactions.html" class="text-gray-700 hover:text-blue-600">Transactions</a>
+        <a href="analytics.html" class="text-gray-700 hover:text-blue-600">Analytics</a>
+        <a href="about.html" class="text-blue-600 font-semibold">About Us</a>
+        <a href="profile.html" class="text-gray-700 hover:text-blue-600">Profile</a>
+        <a href="logout.html" class="text-gray-700 hover:text-blue-600">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow">
+
+    <!-- About Section -->
+    <div class="max-w-4xl mx-auto px-6 py-12 bg-white shadow rounded-2xl mt-8">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">About the Website</h1>
+      <img src="aquarefill.png" alt="Aqua Flush Refill System Logo" class="mx-auto w-40 mb-6"/>
+      <p class="text-lg text-gray-700 leading-relaxed text-justify">
+        <strong>Water For Less Water Refilling Station</strong> is dedicated to providing 
+        high-quality water refilling services to our community. As a trusted provider of 
+        essential goods and services, we continually seek ways to enhance our operations 
+        and improve customer satisfaction. To achieve this, we have developed the 
+        <strong>Aqua Flush Refill System</strong>, a state-of-the-art Water Refilling Management 
+        System designed to streamline business processes. <br/><br/>
+        
+        To support the implementation of our Term-End Project, we utilize computers or 
+        tablets for data entry and software usage, a printer for generating invoices and 
+        receipts, and internet connectivity for cloud-based software and communication with 
+        customers. This comprehensive approach ensures that our services are both efficient 
+        and reliable. <br/><br/>
+        
+        Our team, composed of dedicated students <i>Christian Yvo Holanda, Cyianine Munar, 
+        Hannah Jane Quebec, Elary Frances Ryel Sarcos, Jude Khristine Japzon, and 
+        Harley N. Verunque</i> from <strong>BA 183.2 Basic Programming and Database Management</strong> 
+        section <strong>UVW</strong> for the Second <strong>Semester of Academic Year 2023-2024</strong>, 
+        is committed to leveraging technology to improve our operations and elevate the 
+        customer experience at Water For Less Water Refilling Station.
+      </p>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="max-w-4xl mx-auto px-6 py-12 mt-8">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h1>
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h3 class="text-lg font-semibold mb-4 text-gray-700">Group 3 (UVW)</h3>
+        <div class="space-y-4 text-gray-700 text-base leading-relaxed">
+          <p><strong>Christian Yvo Holanda</strong><br>holanda@up.edu.ph</p>
+          <p><strong>Cyianine Munar</strong><br>cjmunar@up.edu.ph</p>
+          <p><strong>Hannah Jane Quebec</strong><br>hjquebec@up.edu.ph</p>
+          <p><strong>Elary Frances Ryel Sarcos</strong><br>efsarcos@up.edu.ph</p>
+          <p><strong>Jude Khristine Japzon</strong><br>jbjapzon@up.edu.ph</p>
+          <p><strong>Harley N. Verunque</strong><br>hnverunque@up.edu.ph</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 mt-12">
+    <div class="max-w-6xl mx-auto text-center py-6 px-4">
+      <p class="text-sm">
+        <i>©2024 UVW3.</i> <strong>All rights reserved.</strong><br/>
+        <strong>Aqua Flush Refill System</strong> is the educational project of Group 3 section UVW.<br/>
+        All other trademarks and media used on this site are the property of their respective owners.
+      </p>
+      <p id="phTime" class="mt-2 text-sm"></p>
+    </div>
+  </footer>
+
+  <!-- Script for PH Time + Mobile Nav -->
+  <script>
+    function updatePHTime() {
+      var phTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"});
+      document.getElementById("phTime").innerText = "Philippine Standard Time: " + phTime;
+    }
+    updatePHTime();
+    setInterval(updatePHTime, 1000);
+
+    document.getElementById("navToggle").addEventListener("click", () => {
+      document.getElementById("navMenu").classList.toggle("hidden");
+    });
+  </script>
+</body>
+</html>
